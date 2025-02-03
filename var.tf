@@ -1,3 +1,3 @@
-variable "region" {
-  default = "us-central1"
-}
+variable "network_name" {}
+variable "subnet_name" {}
+variable "region" {}
