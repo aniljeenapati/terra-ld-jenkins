@@ -16,7 +16,7 @@ resource "google_compute_instance_template" "template" {
     #!/bin/bash
     sudo apt update
     sudo apt install -y apache2
-    echo '<h1>Welcome to GCP HTTP Load Balancer</h1>' | sudo tee /var/www/html/index.html
+    echo '<h1>Welcome to GCP Load Balancer</h1>' | sudo tee /var/www/html/index.html
     sudo systemctl restart apache2
   EOT
 }
