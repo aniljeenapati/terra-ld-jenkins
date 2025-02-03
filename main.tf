@@ -1,15 +1,18 @@
-module "http_lb" {
-  source = "../../modules/http-lb"
+module "vpc" {
+  source       = "./modules/network"
+  network_name = "my-vpc"
+  subnet_name  = "my-subnet"
+  region       = "us-central1"
+}
 
-  machine_type         = "e2-medium"
-  source_image         = "debian-cloud/debian-10"
-  network              = "default"
-  mig_name             = "dev-mig"
-  zone                 = "us-central1-a"
-  target_size          = 2
-  backend_service_name = "dev-backend-service"
-  health_check_name    = "dev-health-check"
-  url_map_name         = "dev-url-map"
-  target_proxy_name    = "dev-target-proxy"
-  forwarding_rule_name = "dev-forwarding-rule"
+module "mig" {
+  source       = "./modules/compute"
+  network_name = module.network.network_name
+  subnet_name  = module.network.subnet_name
+  region       = "us-central1"
+}
+
+module "http-lb" {
+  source         = "./modules/lb"
+  instance_group = module.compute.instance_group
 }
