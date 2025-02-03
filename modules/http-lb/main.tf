@@ -7,8 +7,8 @@ resource "google_compute_health_check" "http_health" {
   }
 }
 
-resource "google_compute_backend_service" "backend" {
-  name          = "backend-service"
+resource "google_compute_backend_service" "http_backend" {
+  name          = "http-backend-service"
   health_checks = [google_compute_health_check.http_health.self_link]
   backend {
     group = var.instance_group
@@ -17,7 +17,7 @@ resource "google_compute_backend_service" "backend" {
 
 resource "google_compute_url_map" "url_map" {
   name            = "url-map"
-  default_service = google_compute_backend_service.backend.self_link
+  default_service = google_compute_backend_service.http_backend.self_link
 }
 
 resource "google_compute_target_http_proxy" "http_proxy" {
